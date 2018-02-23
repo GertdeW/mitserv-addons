@@ -1,0 +1,26 @@
+<odoo>
+    <template id="report_delivery_document_inherit_product_expiry" inherit_id="stock.report_delivery_document">
+        <xpath expr="//span[@t-field='move_line.product_id']" position="replace">
+                <span t-field="move_line.product_id.name"/>
+        </xpath>
+       <xpath expr="//div[hasclass('col-xs-4')]" position="attributes">
+          <attribute name="class">col-xs-4</attribute>
+        </xpath>
+        <xpath expr="//span[@t-field='o.name']" position="before">
+                <t t-if="o.state == 'done'">
+                    <span><strong>Pakbon</strong></span><br></br>
+                </t>
+        </xpath>
+         <xpath expr="//h2" position="after">
+                <th t-if="o.sale_id.client_order_ref">
+                    <div style="display:inline-block">
+                        <strong>Customer Reference:</strong>
+                        <span t-field="o.sale_id.client_order_ref"/>
+                    </div>
+                </th>
+        </xpath>
+    </template>
+    <template id="report_delivery_document_inherit_mitserv2" inherit_id="sale_stock.report_delivery_document_inherit_sale_stock">
+        <xpath expr="//div[@t-if='o.sale_id.client_order_ref']" position="replace"></xpath>
+    </template>
+</odoo>

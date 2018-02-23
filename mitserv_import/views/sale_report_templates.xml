@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="mitserv_report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@class='page']/div[@class='row'][1]" position="replace">
+            <div class="row">
+                <div class="col-xs-5 col-xs-offset-1">
+                    <div t-field="doc.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                    <p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.partner_id.vat"/></p>
+                </div>
+                <div class="col-xs-6">
+                    <t t-if="doc.partner_shipping_id == doc.partner_invoice_id
+                             and doc.partner_invoice_id != doc.partner_id
+                             or doc.partner_shipping_id != doc.partner_invoice_id">
+                        <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and shipping address:</strong>
+                        <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing address:</strong>
+                        <div t-field="doc.partner_invoice_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        <div t-if="doc.partner_shipping_id != doc.partner_invoice_id" class="mt8">
+                            <strong>Shipping address:</strong>
+                            <div t-field="doc.partner_shipping_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="mitserv_external_layout_standard" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@class='header']" position="replace">
+        <div class="header" style="background-image:url('/mitserv_import/static/header.jpg');background-repeat:no-repeat;background-position:right;background-size: 200px auto;height:100px;width:auto">
+
+        </div>
+        </xpath>
+        <xpath expr="//div[@class='footer']" position="replace">
+        <div class="footer" style="background-image:url('/mitserv_import/static/footer.jpg');background-repeat:no-repeat;height:364px;background-size: 100%;">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <div class="text-muted">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+                <div style="color:#5b6f8e;font-size:10px;margin-top:50px;text-align:left;margin-left:250px;">ACHTERSTE GROES 13 5384 VG HEESCH 0412 744 300 INFO@MITSERVICES.NL MITSERVICES.NL<br></br>IBAN NL55RABO0103421726 BIC RABONL2U BTW NL854926598B01 KVK 62706802</div>
+            </div>
+        </div>
+        </xpath>
+    </template>
+    <template id="mitserv_report_invoice_document_inherit_sale" inherit_id="sale.report_invoice_document_inherit_sale">
+        <xpath expr="//div[@class='col-xs-6']" position="replace"></xpath>
+        <xpath expr="//div[hasclass('col-xs-5')]" position="replace">
+            <div class="col-xs-5" groups="sale.group_delivery_invoice_address">
+                <div t-field="o.partner_id"
+                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                <div t-if="o.partner_id.vat" class="mt16"><t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="o.partner_id.vat"/></div>
+            </div>
+        </xpath>
+    </template>
+    <template id="mitserv_contact_name" inherit_id="base.contact_name">
+        <xpath expr="//div" position="replace">
+            <div style="font-weight:bold" t-if="'name' in fields">
+                <t t-if="object.name">
+                    <span itemprop="name" t-esc="name"/>
+                </t>
+                <t t-if="not object.name and object.parent_name">
+                    <span itemprop="name" t-esc="object.parent_name"/>
+                </t>
+                <div t-if="options.get('country_image') and 'country_id' in fields and object.country_id and object.country_id.image">
+                    <span t-field="object.country_id.image" t-options='{"widget": "image", "class": "country_flag"}'/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="assets_backend" name="account assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/mitserv_import/static/js/reconciliation.js"></script>
+        </xpath>
+    </template>
+</odoo>

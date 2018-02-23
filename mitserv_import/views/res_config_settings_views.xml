@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.hr</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="70"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Helpdesk" data-key="website_helpdesk_support_ticket" groups="hr.group_hr_manager">
+                    <h2>Helpdesk settings</h2>
+                    <div class="row mt16 o_settings_container" title="Prout prout prout">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                                <div class="row">
+                                    <div class="text-muted col-md-8">
+                                        Select the default template for using in helpdesk ticket reply, ...
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="template_id"
+                                            class="o_light_label"
+                                            domain="[('model', '=', 'helpdesk.support')]"
+                                            context="{'default_company_id': company_id}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="helpdesk_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'mitserv_import'}</field>
+    </record>
+
+    <menuitem id="helpdesk_menu_configuration"
+        name="Settings"
+        parent="hr.menu_human_resources_configuration"
+        sequence="0"
+        action="helpdesk_config_settings_action"
+        groups="base.group_system"/>
+
+
+
+</odoo>

@@ -1,0 +1,4 @@
+#. module: mitserv_import
+#: model:ir.ui.view,arch_db:mitserv_import.report_delivery_document_inherit_product_expiry
+msgid "<strong>Customer Reference:</strong>"
+msgstr "<strong>Klant referentie:</strong>"

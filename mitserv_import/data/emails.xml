@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+<data noupdate="1">
+    <!-- Template for receive confirmation -->
+    <record id="email_template_helpdesk_confirmation" model="mail.template">
+        <field name="name">Confirmation for receiving helpdesk ticket</field>
+        <field name="subject">Ticket recived</field>
+        <field name="email_to">${ctx.get('email_to')}</field>
+        <field name="lang">${object.partner_id and object.partner_id.lang or ''}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="body_html"><![CDATA[
+            <p>Dear,</p>
+            <p>Thank you for your enquiry.<br />
+            Some content goes here...</p>
+            <p>Best regards,</p>]]>
+        </field>
+    </record>
+</data>
+</odoo>
